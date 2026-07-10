@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIMNA - Alat Pendeteksi Mikroplastik Air Berbasis AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <button id="scrollTopBtn" class="scroll-top hidden" aria-label="Scroll to top">↑</button>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="logo.png" alt="LIMNA Logo" class="logo-img" onerror="this.style.display='none'"> 
+                <span>LIMNA</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Fitur Utama</a></li>
+                    <li><a href="#insights">Wawasan Riset</a></li>
+                    <li><a href="#checker-section">Uji Air AI</a></li>
+                    <li><a href="#" data-panel="contact">Kontak</a></li>
+                </ul>
+            </nav>
+            <button id="getStartedBtn" class="btn-secondary">Mulai Cek</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-wrap">
+                <div class="hero-content">
+                    <h1>DETEKSI MIKROPLASTIK SECARA INSTAN DENGAN AI</h1>
+                    <p>Manfaatkan teknologi mutakhir untuk analisis air secara real-time dan identifikasi polusi di wilayah Anda.</p>
+                    <div class="hero-btns">
+                        <button id="heroCheckBtn" class="btn-primary">Coba Pendeteksi Limna</button>
+                        <button id="heroLearnBtn" class="btn-outline">Pelajari Risikonya</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <img src="scanner-visual.png" alt="Visual Pemindai AI" class="scanner-img" onerror="this.style.display='none'"> 
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>FITUR UTAMA</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="icon"><i class="fa-solid fa-brain"></i></div> 
+                        <h3>Analisis AI</h3>
+                        <p>Analisis kualitas air secara real-time dan identifikasi polutan.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3>Deteksi Presisi</h3>
+                        <p>Deteksi partikel yang akurat hingga tingkat mikron.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3>Data Terkini</h3>
+                        <p>Akses instan ke metrik kualitas air secara langsung.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon"><i class="fa-solid fa-leaf"></i></div>
+                        <h3>Laporan Ramah Lingkungan</h3>
+                        <p>Manajemen data dan wawasan kelestarian lingkungan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="insights" class="insights">
+            <div class="container">
+                <h2>WAWASAN PENELITIAN TERBARU</h2>
+                <div class="insights-grid">
+                    <div class="insight-card" data-insight="0">
+                        <div class="insight-icon blue"><i class="fa-solid fa-credit-card"></i></div>
+                        <h3>5 Gram Plastik per Minggu</h3>
+                        <p>Manusia rata-rata mengonsumsi mikroplastik setara ukuran kartu kredit setiap minggunya.</p>
+                    </div>
+                    <div class="insight-card" data-insight="1">
+                        <div class="insight-icon teal"><i class="fa-solid fa-bottle-water"></i></div>
+                        <h3>Air Kemasan Terkontaminasi</h3>
+                        <p>Penelitian menemukan partikel plastik di hampir semua merek air kemasan secara global.</p>
+                    </div>
+                    <div class="insight-card" data-insight="2">
+                        <div class="insight-icon rose"><i class="fa-solid fa-dna"></i></div>
+                        <h3>Masa Depan Ekosistem</h3>
+                        <p>Akumulasi mikroplastik dapat memicu peradangan kronis bila dibiarkan.</p>
+                    </div>
+                    <div class="insight-card" data-insight="3">
+                        <div class="insight-icon purple"><i class="fa-solid fa-atom"></i></div>
+                        <h3>Ratusan Ribu Nanoplastik</h3>
+                        <p>Studi terbaru menemukan rata-rata 240.000 partikel nanoplastik dalam air kemasan.</p>
+                    </div>
+                    <div class="insight-card" data-insight="4">
+                        <div class="insight-icon amber"><i class="fa-solid fa-water"></i></div>
+                        <h3>Kontaminasi Sungai Lokal</h3>
+                        <p>Sebagian besar sungai terdeteksi mengandung mikroplastik akibat limbah domestik.</p>
+                    </div>
+                    <div class="insight-card" data-insight="5">
+                        <div class="insight-icon emerald"><i class="fa-solid fa-fish"></i></div>
+                        <h3>Efek Rantai Makanan</h3>
+                        <p>Mikroplastik berpindah dari organisme kecil hingga ke predator puncak.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="checker-section" class="checker-section">
+            <div class="container">
+                <div class="checker-box">
+                    <h2>ALAT UJI KUALITAS AIR AI</h2>
+                    <p>Masukkan data sumber air harian Anda untuk dianalisis oleh AI.</p>
+                    
+                    <form id="analysisForm" class="analysis-form">
+                        <div class="form-group">
+                            <label for="sumberAir">Sumber Air Utama</label>
+                            <select id="sumberAir" name="sumberAir" required>
+                                <option value="">-- Pilih Sumber Air --</option>
+                                <option value="Air PDAM / Ledeng">Air PDAM / Ledeng</option>
+                                <option value="Air Sumur">Air Sumur Bor/Gali</option>
+                                <option value="Air Kemasan Galon">Air Kemasan Galon</option>
+                                <option value="Air Botol Kemasan">Air Botol Kemasan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lokasi">Lokasi Kota / Daerah</label>
+                            <input type="text" id="lokasi" name="lokasi" placeholder="Contoh: Jakarta Selatan" required>
+                            <div id="quickCityWrap" class="quick-city-wrap">
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Metode Filtrasi Tambahan</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="filtrasi" value="Tidak Ada" required> Tidak Ada</label>
+                                <label><input type="radio" name="filtrasi" value="Direbus"> Hanya Direbus</label>
+                                <label><input type="radio" name="filtrasi" value="Filter Karbon Aktif"> Filter Karbon</label>
+                                <label><input type="radio" name="filtrasi" value="Filter Reverse Osmosis (RO)"> Reverse Osmosis</label>
+                            </div>
+                        </div>
+
+                        <div id="statusBox" class="status-box hidden"></div>
+                        <div id="errorBox" class="error-box hidden"></div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="submitBtn" class="btn-primary">Analisis dengan AI</button>
+                            <button type="button" id="resetBtn" class="btn-outline">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultSection" class="result-section hidden">
+            <div class="container">
+                <div class="result-box">
+                    <div class="result-header">
+                        <h2>HASIL ANALISIS AI</h2>
+                        <span id="riskBadge" class="risk-badge"></span>
+                    </div>
+                    <div class="result-content">
+                        <h3 id="analysisTitle"></h3>
+                        <p id="analysisSummary"></p>
+                        
+                        <div class="result-grid">
+                            <div class="result-card">
+                                <h4>Estimasi Partikel</h4>
+                                <p id="particleRange"></p>
+                            </div>
+                            <div class="result-card">
+                                <h4>Tingkat Risiko</h4>
+                                <p id="analysisRiskLevel"></p>
+                            </div>
+                        </div>
+
+                        <div class="mitigation-box">
+                            <h4>Rekomendasi Mitigasi</h4>
+                            <div id="mitigationSteps" class="mitigation-steps"></div>
+                        </div>
+                        
+                        <div class="alternatives-box">
+                            <h4>Alternatif Solusi</h4>
+                            <p id="alternatives"></p>
+                        </div>
+
+                        <p id="disclaimer" class="disclaimer-text"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="#" data-panel="privacy">Kebijakan Privasi</a>
+                <a href="#" data-panel="terms">Ketentuan Layanan</a>
+                <a href="#" data-panel="research">Dokumentasi Penelitian</a>
+            </div>
+            <p>&copy; 2026 LIMNA AI. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <div id="insightModal" class="modal hidden" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close-btn" data-close="insight">&times;</span>
+            <div id="insightModalIcon" class="insight-icon-large"></div>
+            <h3 id="insightModalTitle"></h3>
+            <p id="insightModalDesc" class="modal-desc"></p>
+            <div id="insightModalText" class="modal-text"></div>
+            <p id="insightModalSource" class="modal-source"></p>
+            <button id="modalGoToChecker" class="btn-primary">Cek Kualitas Air Anda</button>
+        </div>
+    </div>
+
+    <div id="sidePanel" class="side-panel hidden" aria-hidden="true">
+        <div class="panel-header">
+            <h3 id="panelTitle"></h3>
+            <span id="panelCloseBtn" class="close-btn" data-close="panel">&times;</span>
+        </div>
+        <div id="panelContent" class="panel-content-body"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
