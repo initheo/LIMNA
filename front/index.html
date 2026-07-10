@@ -17,7 +17,7 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <img src="logo.png" alt="LIMNA Logo" class="logo-img" onerror="this.style.display='none'"> 
+                <i class="fa-solid fa-droplet" style="margin-right: 10px; font-size: 28px;"></i>
                 <span>LIMNA</span>
             </div>
             <nav>
@@ -44,7 +44,33 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <img src="scanner-visual.png" alt="Visual Pemindai AI" class="scanner-img" onerror="this.style.display='none'"> 
+                    <svg class="scanner-svg" viewBox="0 0 200 200" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Latar belakang pendaran cahaya -->
+                        <defs>
+                            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#4df3ff" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#4df3ff" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <circle cx="100" cy="100" r="80" fill="url(#glow)"/>
+                        
+                        <!-- Lingkaran luar berputar searah jarum jam -->
+                        <circle cx="100" cy="100" r="70" stroke="#4df3ff" stroke-width="1.5" stroke-dasharray="10 30" fill="none" class="rotate-clockwise"/>
+                        <!-- Lingkaran dalam berputar berlawanan jarum jam -->
+                        <circle cx="100" cy="100" r="50" stroke="#4df3ff" stroke-width="1" stroke-dasharray="40 10" fill="none" class="rotate-counter-clockwise"/>
+                        
+                        <!-- Garis koordinat pemindai -->
+                        <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(77, 243, 255, 0.2)" stroke-width="1"/>
+                        <line x1="20" y1="100" x2="180" y2="100" stroke="rgba(77, 243, 255, 0.2)" stroke-width="1"/>
+                        
+                        <!-- Titik sensor berdenyut -->
+                        <circle cx="100" cy="100" r="10" fill="#4df3ff" class="pulse-dot"/>
+                        
+                        <!-- Ikon air tetesan di tengah -->
+                        <g transform="translate(90, 85) scale(0.6)">
+                            <path d="M15 30C23.2843 30 30 23.2843 30 15C30 8 15 0 15 0C15 0 0 8 0 15C0 23.2843 6.71573 30 15 30Z" fill="#4df3ff"/>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </section>

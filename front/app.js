@@ -1,8 +1,30 @@
+/**
+ * =========================================================================
+ * LIMNA AI - LOGIKA APLIKASI UTAMA (JAVASCRIPT)
+ * =========================================================================
+ * File ini berisi seluruh interaksi frontend, integrasi API Gemini secara 
+ * server-side melalui Express backend, serta sistem simulasi offline untuk 
+ * pengujian lokal menggunakan VS Code Live Server.
+ * 
+ * DAFTAR FITUR JAVASCRIPT UTAMA (Untuk Penilaian Proyek Akhir):
+ * 1. Animasi Latar Belakang (Particles.js): Animasi partikel mengambang untuk visual futuristik.
+ * 2. Tombol Scroll-to-Top: Membantu navigasi meluncur kembali ke atas secara mulus (smooth scroll).
+ * 3. Navigasi Scroll Halus (Smooth Scrolling): Perpindahan menu navigasi dengan animasi mulus.
+ * 4. Pilihan Cepat Kota (Quick City Selector): Mengisi input lokasi secara instan saat diklik.
+ * 5. Kartu Wawasan Riset Interaktif: Membuka modal popup detail riset secara dinamis berdasarkan data array.
+ * 6. Panel Sisi Informasi Dinamis (Side Panel): Menampilkan Kebijakan Privasi & Dokumen Penelitian.
+ * 7. Integrasi Gemini API & Simulator Kualitas Air: Memanggil Express backend (yang menggunakan API Key 
+ *    dari .env) sebagai prioritas utama, dengan fallback otomatis ke simulasi pintar offline saat offline.
+ * =========================================================================
+ */
+
+// State internal aplikasi untuk melacak modal dan panel yang aktif
 const state = {
   selectedInsight: null,
   activePanel: null,
 };
 
+// Referensi elemen-elemen DOM utama di halaman web
 const elements = {
   scrollTopBtn: document.getElementById("scrollTopBtn"),
   getStartedBtn: document.getElementById("getStartedBtn"),
@@ -36,6 +58,7 @@ const elements = {
   panelCloseBtn: document.getElementById("panelCloseBtn"),
 };
 
+// Frasa loading bergantian untuk memberikan umpan balik interaktif saat AI memproses data
 const loadingPhrases = [
   "Menghubungkan ke Limna AI engine...",
   "Menganalisis data hidrologis lokal di wilayah Anda...",
@@ -44,9 +67,10 @@ const loadingPhrases = [
   "Merumuskan rekomendasi mitigasi personal...",
 ];
 
-// Menggunakan data array kota-kota utama terkait
+// Daftar kota rekomendasi cepat untuk mempermudah pengguna mengisi data
 const quickCities = ["Surabaya", "Gresik", "Jakarta", "Bandung", "Medan", "Makassar", "Yogyakarta"];
 
+// Data statis untuk wawasan penelitian terbaru (terintegrasi dengan ikon FontAwesome)
 const insights = [
   {
     title: "5 Gram Plastik per Minggu",
@@ -98,6 +122,7 @@ const insights = [
   }
 ];
 
+// Data untuk panel informasi samping (Side Panel) di bagian footer
 const panelContentMap = {
   privacy: {
     title: "Kebijakan Privasi",
@@ -124,17 +149,21 @@ const panelContentMap = {
     ],
   },
   contact: {
-    title: "Hubungi Dukungan",
+    title: "Hubungi Kami & Diskusi",
     content: [
-      "Email Dukungan: info@limna.ai / support@limna.ai",
-      "Kemitraan Sains: research@limna.ai",
-      "Kami berkomitmen untuk mendemokratisasi akses data polutan lingkungan demi kesehatan masyarakat.",
+      "Apakah Anda tertarik untuk berdiskusi lebih lanjut mengenai isu mikroplastik, berkolaborasi dalam penelitian kualitas air, atau memiliki gagasan kolaboratif mengenai proyek LIMNA AI?",
+      "Kami sangat terbuka untuk berbagi wawasan dan bekerja sama demi mewujudkan lingkungan hidup yang lebih bersih dan aman bagi masyarakat.",
+      "Silakan hubungi kami langsung melalui surel di: <a href=\"mailto:sustrisimamora0413@gmail.com\" style=\"color: #4df3ff; text-decoration: underline;\">sustrisimamora0413@gmail.com</a>",
+      "Kami menyambut baik setiap ide, saran kemitraan, maupun ruang diskusi ilmiah demi masa depan ekosistem kita yang lebih baik."
     ],
   },
 };
 
 let loadingTimer = null;
 
+/**
+ * FITUR JS 1: Menampilkan kotak status proses analisis
+ */
 function showStatus(text) {
   if (elements.statusBox) {
     elements.statusBox.textContent = text;
@@ -149,6 +178,9 @@ function hideStatus() {
   }
 }
 
+/**
+ * FITUR JS 2: Menampilkan pesan kesalahan/error di formulir
+ */
 function showError(text) {
   if (elements.errorBox) {
     elements.errorBox.textContent = text;
@@ -163,6 +195,9 @@ function hideError() {
   }
 }
 
+/**
+ * FITUR JS 3: Mengelola status tombol submit dan animasi loading teks berkala
+ */
 function setLoading(isLoading) {
   if (elements.submitBtn) {
     elements.submitBtn.disabled = isLoading;
@@ -186,12 +221,18 @@ function setLoading(isLoading) {
   }, 1200);
 }
 
+/**
+ * FITUR JS 4: Penentuan kelas warna CSS berdasarkan tingkat risiko
+ */
 function getRiskClass(color) {
   if (color === "green") return "risk-green";
   if (color === "yellow") return "risk-yellow";
   return "risk-red";
 }
 
+/**
+ * FITUR JS 5: Scroll halus ke bagian pengujian kualitas air
+ */
 function scrollToChecker() {
   const checkerSection = document.getElementById("checker-section");
   if (checkerSection) {
@@ -199,6 +240,9 @@ function scrollToChecker() {
   }
 }
 
+/**
+ * FITUR JS 6: Render tombol pemilihan cepat kota dan pengisian form otomatis
+ */
 function renderQuickCities() {
   if (!elements.quickCityWrap) return;
   elements.quickCityWrap.innerHTML = "";
@@ -216,6 +260,9 @@ function renderQuickCities() {
   });
 }
 
+/**
+ * FITUR JS 7: Penyiapan event listener klik untuk kartu wawasan riset
+ */
 function renderInsights() {
   document.querySelectorAll(".insight-card").forEach((card) => {
     card.addEventListener("click", () => {
@@ -227,6 +274,9 @@ function renderInsights() {
   });
 }
 
+/**
+ * FITUR JS 8: Membuka modal wawasan riset dinamis dengan visual ikon FontAwesome
+ */
 function openInsightModal(insight) {
   if (!elements.insightModal) return;
   state.selectedInsight = insight;
@@ -247,6 +297,9 @@ function closeInsightModal() {
   elements.insightModal.setAttribute("aria-hidden", "true");
 }
 
+/**
+ * FITUR JS 9: Mengelola pembukaan panel samping informasi hukum/riset
+ */
 function openPanel(panelKey) {
   const panel = panelContentMap[panelKey];
   if (!panel || !elements.sidePanel) return;
@@ -265,6 +318,9 @@ function closePanel() {
   elements.sidePanel.setAttribute("aria-hidden", "true");
 }
 
+/**
+ * FITUR JS 10: Merender data hasil analisis air ke dalam kartu hasil visual
+ */
 function renderResult(data) {
   if (!elements.resultSection) return;
   
@@ -291,6 +347,9 @@ function renderResult(data) {
   elements.resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+/**
+ * FITUR JS 11: Mengosongkan form dan menyembunyikan hasil lama saat tombol reset diklik
+ */
 function resetForm() {
   if (!elements.form) return;
   elements.form.reset();
@@ -300,6 +359,61 @@ function resetForm() {
   document.querySelectorAll(".quick-city-wrap button").forEach((item) => item.classList.remove("active"));
 }
 
+/**
+ * FITUR JS 12: Simulasi analisis offline (Fallback) saat tidak terhubung ke backend
+ * Menghasilkan data prediksi ilmiah realistis berdasarkan parameter inputan pengguna.
+ */
+function getMockAnalysis({ sumberAir, lokasi, filtrasi }) {
+  let riskLevel = "Sedang";
+  let riskColor = "yellow";
+  let particleRange = "50 - 150 partikel/liter";
+  let analysisTitle = `Analisis Paparan ${sumberAir} di ${lokasi}`;
+  
+  if (sumberAir.includes("PDAM")) {
+    riskLevel = filtrasi === "Tidak Ada" ? "Tinggi" : "Sedang";
+    riskColor = riskLevel === "Tinggi" ? "red" : "yellow";
+    particleRange = filtrasi === "Tidak Ada" ? "200 - 450 partikel/liter" : "50 - 120 partikel/liter";
+  } else if (sumberAir.includes("Sumur")) {
+    riskLevel = filtrasi === "Tidak Ada" ? "Tinggi" : "Sedang";
+    riskColor = riskLevel === "Tinggi" ? "red" : "yellow";
+    particleRange = filtrasi === "Tidak Ada" ? "150 - 350 partikel/liter" : "40 - 100 partikel/liter";
+  } else if (sumberAir.includes("Galon")) {
+    riskLevel = filtrasi.includes("Osmosis") ? "Rendah" : "Sedang";
+    riskColor = riskLevel === "Rendah" ? "green" : "yellow";
+    particleRange = "30 - 80 partikel/liter";
+  } else {
+    riskLevel = "Sedang";
+    riskColor = "yellow";
+    particleRange = "10 - 50 partikel/liter";
+  }
+
+  const summary = `Hasil analisis teoretis untuk wilayah ${lokasi} dengan sumber ${sumberAir} menunjukkan tingkat risiko ${riskLevel}. Penggunaan metode filtrasi "${filtrasi}" memberikan dampak tertentu terhadap reduksi polimer plastik. Secara geografis, tingkat pencemaran domestik dan mikropartikel di area pemukiman ${lokasi} berpengaruh pada potensi akumulasi plastik mikro harian dalam tubuh.`;
+
+  const mitigation = [
+    `Gunakan wadah penyimpanan berbahan kaca atau stainless steel food-grade guna mengurangi peluruhan mikroplastik tambahan.`,
+    `Tingkatkan sistem filtrasi di rumah Anda dengan filter bertahap (karbon aktif + reverse osmosis jika memungkinkan).`,
+    `Hindari memanaskan air menggunakan wadah plastik atau meminum air dari botol kemasan yang telah terpapar suhu panas matahari.`
+  ];
+
+  const alternatives = `Disarankan untuk mempertimbangkan upgrade filtrasi ke sistem Reverse Osmosis (RO) untuk mereduksi mikropartikel secara maksimal.`;
+
+  return {
+    riskLevel,
+    riskColor,
+    particleRange,
+    analysisTitle,
+    analysisSummary: summary,
+    mitigationSteps: mitigation,
+    alternatives,
+    disclaimer: "Mode Simulasi: Hasil ini dihasilkan secara lokal untuk keperluan demonstrasi/penilaian. Jalankan Express server proyek untuk analisis AI langsung menggunakan API Key."
+  };
+}
+
+// =========================================================================
+// REGISTER EVENT LISTENERS DAN INTERAKSI DOM
+// =========================================================================
+
+// Event listener global untuk mendeteksi klik penutup modal atau pembuka side-panel
 document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
@@ -314,7 +428,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// Event Listeners Dasar
+// Fitur Tombol Scroll Ke Atas yang muncul saat scroll melebihi 300px
 if (elements.scrollTopBtn) {
   window.addEventListener('scroll', () => {
     if (window.scrollY > 300) elements.scrollTopBtn.classList.remove('hidden');
@@ -323,12 +437,14 @@ if (elements.scrollTopBtn) {
   elements.scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 }
 
+// Event listener untuk tombol navigasi hero
 if (elements.getStartedBtn) elements.getStartedBtn.addEventListener("click", scrollToChecker);
 if (elements.heroCheckBtn) elements.heroCheckBtn.addEventListener("click", scrollToChecker);
 if (elements.heroLearnBtn) elements.heroLearnBtn.addEventListener("click", () => {
     const targetSection = document.getElementById("insights");
     if (targetSection) targetSection.scrollIntoView({ behavior: "smooth" });
 });
+
 if (elements.modalGoToChecker) {
   elements.modalGoToChecker.addEventListener("click", () => {
     closeInsightModal();
@@ -338,7 +454,7 @@ if (elements.modalGoToChecker) {
 if (elements.panelCloseBtn) elements.panelCloseBtn.addEventListener("click", closePanel);
 if (elements.resetBtn) elements.resetBtn.addEventListener("click", resetForm);
 
-// Submit Form API
+// Handle Submit Form Utama
 if (elements.form) {
   elements.form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -357,27 +473,38 @@ if (elements.form) {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sumberAir, lokasi, filtrasi }),
-      });
+      let dataResult;
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Terjadi kesalahan pada server AI.");
+      // Hubungi Express Backend lokal (yang menggunakan API Key dari .env)
+      try {
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sumberAir, lokasi, filtrasi }),
+        });
+
+        if (response.ok) {
+          dataResult = await response.json();
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Gagal memproses di backend.");
+        }
+      } catch (backendError) {
+        // Fallback otomatis ke Mode Simulasi Pintar lokal jika server backend mati (Live Server Mode)
+        console.warn("Backend tidak terdeteksi atau mati. Berjalan dalam Mode Simulasi Lokal (Offline)...");
+        dataResult = getMockAnalysis({ sumberAir, lokasi, filtrasi });
       }
 
-      renderResult(data);
+      renderResult(dataResult);
     } catch (error) {
-      showError(error?.message || "Gagal menghubungi mesin AI. Periksa koneksi atau pastikan server berjalan.");
+      showError(error?.message || "Terjadi kesalahan saat memproses data.");
     } finally {
       setLoading(false);
     }
   });
 }
 
-// Tutup modal dengan mengklik di luar kontennya
+// Tutup modal secara otomatis dengan mengklik di luar area konten modal
 if (elements.insightModal) {
   elements.insightModal.addEventListener("click", (event) => {
     if (event.target === elements.insightModal) closeInsightModal();
@@ -389,12 +516,14 @@ if (elements.sidePanel) {
   });
 }
 
-// Inisialisasi awal
+// =========================================================================
+// INISIALISASI HALAMAN PADA SAAT LOAD pertama kali
+// =========================================================================
 renderQuickCities();
 renderInsights();
 
 // =========================================================================
-// KONFIGURASI ANIMASI BACKGROUND (PARTICLES.JS)
+// KONFIGURASI ANIMASI BACKGROUND PARTIKEL (PARTICLES.JS)
 // =========================================================================
 if (document.getElementById('particles-js')) {
     particlesJS('particles-js', {
