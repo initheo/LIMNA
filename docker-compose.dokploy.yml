@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      APP_URL: ${APP_URL:-https://limna.neoartd.my.id}
+      PORT: "3000"
+    expose:
+      - "3000"
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.limna.rule=Host(`limna.neoartd.my.id`)"
+      - "traefik.http.routers.limna.entrypoints=websecure"
+      - "traefik.http.routers.limna.tls.certresolver=letsencrypt"
+      - "traefik.http.services.limna.loadbalancer.server.port=3000"
+
+networks:
+  dokploy-network:
+    external: true
